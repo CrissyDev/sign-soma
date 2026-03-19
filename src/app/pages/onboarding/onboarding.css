@@ -1,0 +1,73 @@
+.onboarding-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .slide-img {
+    width: 220px;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    background: #e6f0ff;
+    padding: 10px;
+  }
+  
+  h2 {
+    color: #0d6efd;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    color: #555;
+    max-width: 300px;
+  }
+  
+  .dots {
+    display: flex;
+    gap: 8px;
+    margin: 20px 0;
+  }
+  
+  .dots span {
+    width: 8px;
+    height: 8px;
+    background: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .dots span.active {
+    background: #0d6efd;
+    width: 20px;
+    border-radius: 10px;
+  }
+  
+  .btn-main {
+    background: #0d6efd;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 25px;
+    font-weight: 500;
+    margin-top: 10px;
+    transition: 0.3s;
+  }
+  
+  .btn-main:hover {
+    background: #0b5ed7;
+  }
+  
+  .login-text {
+    margin-top: 15px;
+    color: #666;
+    font-size: 14px;
+    cursor: pointer;
+  }

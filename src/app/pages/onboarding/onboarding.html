@@ -1,0 +1,21 @@
+<div class="onboarding-container">
+
+    <div class="slide">
+      <img [src]="slides[currentIndex].image" class="slide-img" />
+  
+      <h2>{{ slides[currentIndex].title }}</h2>
+      <p>{{ slides[currentIndex].description }}</p>
+    </div>
+  
+    <div class="dots">
+      <span *ngFor="let slide of slides; let i = index"
+            (click)="goToSlide(i)"
+            [class.active]="i === currentIndex">
+      </span>
+    </div>
+  
+    <button class="btn-main" routerLink="/home">Get Started</button>
+  
+    <p class="login-text">I already have an account</p>
+  
+  </div>
