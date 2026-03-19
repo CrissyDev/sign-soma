@@ -1,21 +1,29 @@
 <div class="onboarding-container">
 
-    <div class="slide">
-      <img [src]="slides[currentIndex].image" class="slide-img" />
+    <div class="content">
   
-      <h2>{{ slides[currentIndex].title }}</h2>
-      <p>{{ slides[currentIndex].description }}</p>
+      <h1>{{ slides[currentIndex].title }}</h1>
+      <p class="desc">{{ slides[currentIndex].description }}</p>
+  
+      <div class="image-wrapper">
+        <img [src]="slides[currentIndex].image" class="slide-img" />
+      </div>
+  
+    
+      <button class="btn-main" routerLink="/home">
+        Get Started
+      </button>
+  
+      <p class="login-text">I already have an account</p>
+  
+      
+      <div class="dots">
+        <span *ngFor="let slide of slides; let i = index"
+              (click)="goToSlide(i)"
+              [class.active]="i === currentIndex">
+        </span>
+      </div>
+  
     </div>
-  
-    <div class="dots">
-      <span *ngFor="let slide of slides; let i = index"
-            (click)="goToSlide(i)"
-            [class.active]="i === currentIndex">
-      </span>
-    </div>
-  
-    <button class="btn-main" routerLink="/home">Get Started</button>
-  
-    <p class="login-text">I already have an account</p>
   
   </div>

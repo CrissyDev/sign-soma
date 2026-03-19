@@ -38,7 +38,7 @@ export class OnboardingComponent implements OnInit {
   autoSlide() {
     setInterval(() => {
       this.nextSlide();
-    }, 4000);
+    }, 5000); 
   }
 
   nextSlide() {
