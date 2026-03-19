@@ -17,17 +17,17 @@ export class OnboardingComponent implements OnInit {
     {
       title: 'Welcome to Sign Soma',
       description: 'Bridging communication between deaf patients and doctors.',
-      image: 'assets/img1.png'
+      image: 'assets/pexels-gabby-k-7114329.jpg'
     },
     {
       title: 'Understand Every Sign',
       description: 'Translate sign language into clear medical communication.',
-      image: 'assets/img2.png'
+      image: 'assets/pexels-gustavo-fring-5622668.jpg'
     },
     {
       title: 'Better Healthcare Access',
       description: 'Making hospitals inclusive for everyone.',
-      image: 'assets/img3.png'
+      image: 'assets/pexels-ketut-subiyanto-4584454.jpg'
     }
   ];
 
