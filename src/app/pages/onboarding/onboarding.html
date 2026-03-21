@@ -11,11 +11,13 @@
       <h1>{{ slides[currentIndex].title }}</h1>
       <p class="desc">{{ slides[currentIndex].description }}</p>
 
-      <button class="btn-main" routerLink="/home">
+      <button class="btn-main" routerLink="/auth">
         Get Started
       </button>
 
-      <p class="login-text">I already have an account</p>
+      <p class="login-text" routerLink="/login">
+        I already have an account
+      </p>
 
       <div class="dots">
         <span *ngFor="let slide of slides; let i = index"

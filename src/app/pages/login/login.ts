@@ -1,9 +1,27 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './login.html',
-  styleUrl: './login.css',
+  styleUrls: ['./login.css']
 })
-export class Login {}
+export class Login {
+
+  username = '';
+  password = '';
+
+  constructor(private router: Router) {}
+
+  login() {
+    if (this.username === 'doctor') {
+      this.router.navigate(['/doctor-dashboard']);
+    } else {
+      this.router.navigate(['/patient-dashboard']);
+    }
+  }
+}

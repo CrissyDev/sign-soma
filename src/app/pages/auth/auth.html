@@ -1,1 +1,28 @@
-<p>auth works!</p>
+<div class="auth-container">
+
+    <div class="card">
+  
+      <img src="assets/WhatsApp Image 2026-03-19 at 11.36.42 AM.jpeg" class="logo">
+  
+      <h2>SignSoma</h2>
+      <p class="subtitle">Sign Language Medical Assistant</p>
+  
+      <p class="label">Login As</p>
+  
+      <div class="role-toggle">
+        <button [class.active]="role==='patient'" (click)="selectRole('patient')">Patient</button>
+        <button [class.active]="role==='doctor'" (click)="selectRole('doctor')">Doctor</button>
+      </div>
+  
+      <input type="email" placeholder="Email" [(ngModel)]="email">
+      <input type="password" placeholder="Password" [(ngModel)]="password">
+  
+      <button class="primary-btn" (click)="signUp()">Sign Up</button>
+  
+      <p class="login-link" routerLink="/login">
+        Already have an account? Login
+      </p>
+  
+    </div>
+  
+  </div>

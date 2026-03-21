@@ -1,0 +1,77 @@
+.auth-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f6fb;
+  }
+  
+  .card {
+    width: 400px;
+    padding: 30px;
+    border-radius: 16px;
+    background: white;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+  
+  .logo {
+    width: 50px;
+    margin-bottom: 10px;
+  }
+  
+  h2 {
+    margin: 0;
+  }
+  
+  .subtitle {
+    color: #777;
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    text-align: left;
+    margin-bottom: 5px;
+  }
+  
+  .role-toggle {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .role-toggle button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #e0e0e0;
+  }
+  
+  .role-toggle .active {
+    background: #0d6efd;
+    color: white;
+  }
+  
+  input {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+  }
+  
+  .primary-btn {
+    width: 100%;
+    padding: 12px;
+    background: #0d6efd;
+    color: white;
+    border: none;
+    border-radius: 10px;
+  }
+  
+  .login-link {
+    margin-top: 10px;
+    font-size: 14px;
+    cursor: pointer;
+  }
