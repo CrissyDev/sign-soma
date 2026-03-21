@@ -1,29 +1,43 @@
 <div class="onboarding-container">
 
-    <div class="content">
-  
+  <!-- LOGO -->
+  <div class="logo">
+    <img src="assets/WhatsApp Image 2026-03-19 at 11.36.42 AM.jpeg" alt="Sign Soma Logo">
+  </div>
+
+  <div class="main-content">
+
+    <!-- LEFT SIDE -->
+    <div class="left">
+
       <h1>{{ slides[currentIndex].title }}</h1>
       <p class="desc">{{ slides[currentIndex].description }}</p>
-  
-      <div class="image-wrapper">
-        <img [src]="slides[currentIndex].image" class="slide-img" />
-      </div>
-  
-    
+
       <button class="btn-main" routerLink="/home">
         Get Started
       </button>
-  
+
       <p class="login-text">I already have an account</p>
-  
-      
+
+      <!-- DOTS -->
       <div class="dots">
         <span *ngFor="let slide of slides; let i = index"
               (click)="goToSlide(i)"
               [class.active]="i === currentIndex">
         </span>
       </div>
-  
+
     </div>
-  
+
+    <!-- RIGHT SIDE (SLIDER) -->
+    <div class="right">
+
+      <div class="slider">
+        <img [src]="slides[currentIndex].image" class="slide-img" />
+      </div>
+
+    </div>
+
   </div>
+
+</div>

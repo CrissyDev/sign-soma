@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
 import { RouterModule } from '@angular/router'; 
 
@@ -9,9 +9,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './onboarding.html',
   styleUrls: ['./onboarding.css']
 })
-export class OnboardingComponent implements OnInit {
+export class OnboardingComponent implements OnInit, OnDestroy {
 
   currentIndex = 0;
+  intervalId: any;
 
   slides = [
     {
@@ -32,13 +33,23 @@ export class OnboardingComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.autoSlide();
+    this.startAutoSlide();
   }
 
-  autoSlide() {
-    setInterval(() => {
+  ngOnDestroy() {
+    this.stopAutoSlide(); 
+  }
+
+  startAutoSlide() {
+    this.intervalId = setInterval(() => {
       this.nextSlide();
-    }, 5000); 
+    }, 4000);
+  }
+
+  stopAutoSlide() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+    }
   }
 
   nextSlide() {
@@ -47,5 +58,13 @@ export class OnboardingComponent implements OnInit {
 
   goToSlide(index: number) {
     this.currentIndex = index;
+  }
+
+  onMouseEnter() {
+    this.stopAutoSlide();
+  }
+
+  onMouseLeave() {
+    this.startAutoSlide();
   }
 }
