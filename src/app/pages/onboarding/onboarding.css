@@ -1,65 +1,66 @@
-/* MAIN CONTAINER */
 .onboarding-container {
   height: 100vh;
   width: 100%;
   background: #f8fbff;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
-/* LOGO */
 .logo {
   position: absolute;
-  top: 20px;
-  left: 40px;
+  top: 25px;
+  left: 50px;
+  display: flex;
+  align-items: center;
 }
 
 .logo img {
-  height: 40px;
+  height: 75px;
+  width: auto;
+  object-fit: contain;
 }
 
-/* MAIN SPLIT LAYOUT */
+
 .main-content {
   display: flex;
   height: 100%;
 }
 
-/* LEFT SIDE */
 .left {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 80px;
+  padding: 60px 80px;
 }
 
-/* RIGHT SIDE */
 .right {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #eaf2ff;
+  padding: 20px; 
 }
 
-/* TEXT */
 h1 {
-  font-size: 42px;
+  font-size: 44px;
   font-weight: 700;
   color: #0d6efd;
   margin-bottom: 15px;
+  line-height: 1.2;
 }
 
 .desc {
   font-size: 18px;
   color: #555;
-  max-width: 400px;
-  margin-bottom: 30px;
+  max-width: 420px;
+  margin-bottom: 25px;
 }
 
-/* BUTTON */
 .btn-main {
-  width: 220px;
+  width: 240px;
   background: #0d6efd;
   color: white;
   border: none;
@@ -67,7 +68,7 @@ h1 {
   border-radius: 30px;
   font-size: 16px;
   font-weight: 600;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   transition: 0.3s;
 }
 
@@ -75,31 +76,35 @@ h1 {
   background: #0b5ed7;
 }
 
-/* LOGIN */
 .login-text {
   color: #666;
   font-size: 14px;
   cursor: pointer;
 }
 
-/* IMAGE SLIDER */
 .slider {
-  width: 80%;
-  max-width: 500px;
+  width: 920px;          
+  height: 900px;        
+  border-radius: 30px;
+  overflow: hidden;
+  background: white;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .slide-img {
   width: 100%;
-  height: auto;
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   transition: 0.5s ease-in-out;
 }
 
-/* DOTS */
 .dots {
   display: flex;
-  gap: 8px;
-  margin-top: 25px;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .dots span {
@@ -113,6 +118,6 @@ h1 {
 
 .dots span.active {
   background: #0d6efd;
-  width: 22px;
+  width: 24px;
   border-radius: 10px;
 }
