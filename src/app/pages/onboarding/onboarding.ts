@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   templateUrl: './onboarding.html',
   styleUrls: ['./onboarding.css']
 })
-export class OnboardingComponent implements OnInit, OnDestroy {
+export class Onboarding implements OnInit, OnDestroy {
 
   currentIndex = 0;
   intervalId: any;
