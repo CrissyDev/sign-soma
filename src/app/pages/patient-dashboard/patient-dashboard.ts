@@ -9,6 +9,11 @@ import { CommonModule } from '@angular/common';
 import { Hands } from '@mediapipe/hands';
 import { Camera } from '@mediapipe/camera_utils';
 
+interface Message {
+  text: string;
+  time: string;
+}
+
 @Component({
   selector: 'app-patient-dashboard',
   standalone: true,
@@ -18,14 +23,44 @@ import { Camera } from '@mediapipe/camera_utils';
 })
 export class PatientDashboard implements AfterViewInit {
 
-  @ViewChild('videoElement') videoRef!: ElementRef;
-  @ViewChild('canvasElement') canvasRef!: ElementRef;
+  @ViewChild('videoElement') videoRef!: ElementRef<HTMLVideoElement>;
+  @ViewChild('canvasElement') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   hands!: Hands;
   camera!: Camera;
 
+  messages: Message[] = [
+    {
+      text: 'Hello! I am ready to help you. Please start signing.',
+      time: this.getTime()
+    }
+  ];
+
+  session = {
+    status: 'Active',
+    duration: '5 min'
+  };
+
   ngAfterViewInit() {
     this.initMediaPipe();
+  }
+
+  getTime(): string {
+    return new Date().toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  }
+
+  addMessage(text: string) {
+    // prevent spam (same message repeated fast)
+    const last = this.messages[this.messages.length - 1];
+    if (last?.text !== text) {
+      this.messages.push({
+        text,
+        time: this.getTime()
+      });
+    }
   }
 
   initMediaPipe() {
@@ -45,11 +80,11 @@ export class PatientDashboard implements AfterViewInit {
   }
 
   startCamera() {
-    const videoElement = this.videoRef.nativeElement;
+    const video = this.videoRef.nativeElement;
 
-    this.camera = new Camera(videoElement, {
+    this.camera = new Camera(video, {
       onFrame: async () => {
-        await this.hands.send({ image: videoElement });
+        await this.hands.send({ image: video });
       },
       width: 640,
       height: 480
@@ -60,14 +95,13 @@ export class PatientDashboard implements AfterViewInit {
 
   onResults(results: any) {
     const canvas = this.canvasRef.nativeElement;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d')!;
 
     canvas.width = results.image.width;
     canvas.height = results.image.height;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(results.image, 0, 0);
 
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
@@ -78,20 +112,20 @@ export class PatientDashboard implements AfterViewInit {
     }
   }
 
-  drawLandmarks(ctx: any, landmarks: any) {
+  drawLandmarks(ctx: CanvasRenderingContext2D, landmarks: any) {
     ctx.fillStyle = 'lime';
 
-    for (const point of landmarks) {
+    landmarks.forEach((point: any) => {
       ctx.beginPath();
       ctx.arc(
         point.x * ctx.canvas.width,
         point.y * ctx.canvas.height,
         5,
         0,
-        2 * Math.PI
+        Math.PI * 2
       );
       ctx.fill();
-    }
+    });
   }
 
   detectGesture(landmarks: any) {
@@ -101,8 +135,7 @@ export class PatientDashboard implements AfterViewInit {
     const distance = Math.abs(thumbTip.x - indexTip.x);
 
     if (distance < 0.05) {
-      console.log('Detected: Hello 👋');
-
+      this.addMessage('Hello 👋');
     }
   }
 }

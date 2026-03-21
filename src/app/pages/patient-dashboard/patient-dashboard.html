@@ -1,11 +1,62 @@
-<div class="camera-card">
+<div class="dashboard">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div>
+        <h2>Medical Consultation</h2>
+        <p>Sign Language Translation</p>
+      </div>
   
-    <video #videoElement class="video-feed"></video>
+      <div class="user">
+        <span>farida2001ahmed</span>
+        <button>Logout</button>
+      </div>
+    </div>
   
-    <canvas #canvasElement class="overlay"></canvas>
+    <!-- MAIN -->
+    <div class="content">
   
-    <button class="start-btn" (click)="startCamera()">
-      Start Recording
-    </button>
+      <!-- LEFT -->
+      <div class="left">
   
+        <div class="camera-box">
+          <video #videoElement autoplay muted></video>
+          <canvas #canvasElement></canvas>
+  
+          <div class="camera-placeholder">
+            Camera Ready
+          </div>
+  
+          <button (click)="startCamera()">Start Recording</button>
+        </div>
+  
+        <div class="session-box">
+          <h3>Session Info</h3>
+          <p>Status: <span class="active">{{session.status}}</span></p>
+          <p>Messages: {{messages.length}}</p>
+          <p>Duration: {{session.duration}}</p>
+        </div>
+  
+      </div>
+  
+      <!-- RIGHT -->
+      <div class="right">
+  
+        <h3>Conversation History</h3>
+  
+        <div class="chat">
+          <div *ngFor="let msg of messages" class="bubble">
+            <p>{{msg.text}}</p>
+            <span>{{msg.time}}</span>
+          </div>
+        </div>
+  
+        <div class="input">
+          <input placeholder="Or type your message..." />
+          <button>Send</button>
+        </div>
+  
+      </div>
+  
+    </div>
   </div>
