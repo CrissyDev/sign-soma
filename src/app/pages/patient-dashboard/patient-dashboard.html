@@ -1,59 +1,52 @@
-<div class="dashboard">
+<div class="dashboard-wrapper">
 
-    <!-- HEADER -->
-    <div class="header">
-      <div>
-        <h2>Medical Consultation</h2>
-        <p>Sign Language Translation</p>
+    <div class="dashboard">
+  
+      <!-- HEADER -->
+      <div class="header">
+        <div>
+          <h2>Medical Consultation</h2>
+          <p>Sign Language Translation</p>
+        </div>
+  
+        <div class="user">
+          <span>farida2001ahmed</span>
+          <button>Logout</button>
+        </div>
       </div>
   
-      <div class="user">
-        <span>farida2001ahmed</span>
-        <button>Logout</button>
-      </div>
-    </div>
+      <!-- MAIN -->
+      <div class="content">
   
-    <!-- MAIN -->
-    <div class="content">
-  
-      <!-- LEFT -->
-      <div class="left">
-  
+        <!-- LEFT -->
         <div class="camera-box">
-          <video #videoElement autoplay muted></video>
-          <canvas #canvasElement></canvas>
   
-          <div class="camera-placeholder">
-            Camera Ready
+            <div class="camera-inner">
+              <video #videoElement autoplay muted playsinline></video>
+              <canvas #canvasElement></canvas>
+            </div>
+          
+            <div class="placeholder">Camera Ready</div>
+          
+            <button (click)="startCamera()">Start Recording</button>
+          </div>
+        <!-- RIGHT -->
+        <div class="right">
+  
+          <h3>Conversation History</h3>
+  
+          <div class="chat">
+            <div *ngFor="let msg of messages" class="bubble">
+              <p>{{msg.text}}</p>
+              <span>{{msg.time}}</span>
+            </div>
           </div>
   
-          <button (click)="startCamera()">Start Recording</button>
-        </div>
-  
-        <div class="session-box">
-          <h3>Session Info</h3>
-          <p>Status: <span class="active">{{session.status}}</span></p>
-          <p>Messages: {{messages.length}}</p>
-          <p>Duration: {{session.duration}}</p>
-        </div>
-  
-      </div>
-  
-      <!-- RIGHT -->
-      <div class="right">
-  
-        <h3>Conversation History</h3>
-  
-        <div class="chat">
-          <div *ngFor="let msg of messages" class="bubble">
-            <p>{{msg.text}}</p>
-            <span>{{msg.time}}</span>
+          <div class="input">
+            <input placeholder="Or type your message..." />
+            <button>Send</button>
           </div>
-        </div>
   
-        <div class="input">
-          <input placeholder="Or type your message..." />
-          <button>Send</button>
         </div>
   
       </div>
