@@ -2,7 +2,9 @@ import {
   Component,
   ViewChild,
   ElementRef,
-  AfterViewInit
+  AfterViewInit,
+  NgZone,
+  OnDestroy
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -21,13 +23,16 @@ interface Message {
   templateUrl: './patient-dashboard.html',
   styleUrls: ['./patient-dashboard.css']
 })
-export class PatientDashboard implements AfterViewInit {
+export class PatientDashboard implements AfterViewInit, OnDestroy {
 
   @ViewChild('videoElement') videoRef!: ElementRef<HTMLVideoElement>;
   @ViewChild('canvasElement') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   hands!: Hands;
   camera!: Camera;
+
+  isCameraRunning = false;
+  lastProcessedTime = 0;
 
   messages: Message[] = [
     {
@@ -36,13 +41,16 @@ export class PatientDashboard implements AfterViewInit {
     }
   ];
 
-  session = {
-    status: 'Active',
-    duration: '5 min'
-  };
+  constructor(private ngZone: NgZone) {}
 
   ngAfterViewInit() {
     this.initMediaPipe();
+  }
+
+  ngOnDestroy() {
+    if (this.camera) {
+      this.camera.stop();
+    }
   }
 
   getTime(): string {
@@ -53,12 +61,15 @@ export class PatientDashboard implements AfterViewInit {
   }
 
   addMessage(text: string) {
-    // prevent spam (same message repeated fast)
     const last = this.messages[this.messages.length - 1];
+
     if (last?.text !== text) {
-      this.messages.push({
-        text,
-        time: this.getTime()
+      // Run inside Angular only when updating UI
+      this.ngZone.run(() => {
+        this.messages.push({
+          text,
+          time: this.getTime()
+        });
       });
     }
   }
@@ -71,37 +82,54 @@ export class PatientDashboard implements AfterViewInit {
 
     this.hands.setOptions({
       maxNumHands: 1,
-      modelComplexity: 1,
-      minDetectionConfidence: 0.7,
-      minTrackingConfidence: 0.7
+      modelComplexity: 0, // 🔥 reduce load (IMPORTANT)
+      minDetectionConfidence: 0.6,
+      minTrackingConfidence: 0.6
     });
 
-    this.hands.onResults((results) => this.onResults(results));
+    this.hands.onResults((results) => {
+      this.onResults(results);
+    });
   }
 
   startCamera() {
+    if (this.isCameraRunning) return; // prevent duplicate start
+
     const video = this.videoRef.nativeElement;
 
-    this.camera = new Camera(video, {
-      onFrame: async () => {
-        await this.hands.send({ image: video });
-      },
-      width: 640,
-      height: 480
-    });
+    this.ngZone.runOutsideAngular(() => {
+      this.camera = new Camera(video, {
+        onFrame: async () => {
 
-    this.camera.start();
+          // 🔥 Throttle frames (process every ~100ms)
+          const now = Date.now();
+          if (now - this.lastProcessedTime < 100) return;
+
+          this.lastProcessedTime = now;
+
+          await this.hands.send({ image: video });
+        },
+        width: 640,
+        height: 480
+      });
+
+      this.camera.start();
+      this.isCameraRunning = true;
+    });
   }
 
   onResults(results: any) {
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d')!;
 
+    if (!results.image) return;
+
     canvas.width = results.image.width;
     canvas.height = results.image.height;
 
+    ctx.save();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(results.image, 0, 0);
+    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
 
     if (results.multiHandLandmarks) {
       for (const landmarks of results.multiHandLandmarks) {
@@ -110,12 +138,16 @@ export class PatientDashboard implements AfterViewInit {
 
       this.detectGesture(results.multiHandLandmarks[0]);
     }
+
+    ctx.restore();
   }
 
   drawLandmarks(ctx: CanvasRenderingContext2D, landmarks: any) {
     ctx.fillStyle = 'lime';
 
-    landmarks.forEach((point: any) => {
+    for (let i = 0; i < landmarks.length; i++) {
+      const point = landmarks[i];
+
       ctx.beginPath();
       ctx.arc(
         point.x * ctx.canvas.width,
@@ -125,7 +157,7 @@ export class PatientDashboard implements AfterViewInit {
         Math.PI * 2
       );
       ctx.fill();
-    });
+    }
   }
 
   detectGesture(landmarks: any) {
@@ -135,7 +167,7 @@ export class PatientDashboard implements AfterViewInit {
     const distance = Math.abs(thumbTip.x - indexTip.x);
 
     if (distance < 0.05) {
-      this.addMessage('Hello 👋');
+      this.addMessage('Hello ');
     }
   }
 }
