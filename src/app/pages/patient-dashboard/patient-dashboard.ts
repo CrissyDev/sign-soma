@@ -29,7 +29,7 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
   @ViewChild('canvasElement') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   hands!: Hands;
-  camera: any; // Using any because of specific MediaPipe typing quirks
+  camera: any; 
 
   isCameraRunning = false;
 
@@ -90,10 +90,8 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
 
     const video = this.videoRef.nativeElement;
 
-    // Start logic
     this.camera = new Camera(video, {
       onFrame: async () => {
-        // Just send the image; MediaPipe handles the internal loop
         await this.hands.send({ image: video });
       },
       width: 640,
@@ -111,7 +109,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d')!;
 
-    // Set canvas size to match video display size
     if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
@@ -120,8 +117,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     ctx.save();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // We DON'T draw the image here anymore because the <video> tag is already showing it.
-    // This saves a massive amount of CPU/GPU power.
 
     if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
       for (const landmarks of results.multiHandLandmarks) {
@@ -133,7 +128,7 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
   }
 
   drawLandmarks(ctx: CanvasRenderingContext2D, landmarks: any) {
-    ctx.fillStyle = '#1a3cff'; // Matching your brand blue
+    ctx.fillStyle = '#1a3cff'; 
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 2;
 
@@ -156,7 +151,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
       Math.pow(thumbTip.y - indexTip.y, 2)
     );
 
-    // Adjusted threshold for better pinch detection
     if (distance < 0.05) {
       this.addMessage('Gesture Detected');
     }
