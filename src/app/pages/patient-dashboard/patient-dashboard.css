@@ -280,3 +280,17 @@
     height: 220px;
   }
 }
+
+
+.start-btn.stop-btn {
+  background: #ff4d4d; 
+}
+
+.start-btn.stop-btn:hover {
+  background: #e60000;
+}
+
+/* Ensure the video feed fills the box when visible */
+.video-feed {
+  background: #000;
+}
