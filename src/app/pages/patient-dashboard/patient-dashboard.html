@@ -1,93 +1,46 @@
 <div class="dashboard-wrapper">
-
   <div class="dashboard">
-
-    <!-- HEADER -->
     <div class="header">
       <div>
         <h2>Medical Consultation</h2>
         <p>Sign Language Translation</p>
       </div>
-
       <div class="user">
         <span>farida2001ahmed</span>
         <button>Logout</button>
       </div>
     </div>
 
-    <!-- MAIN CONTENT -->
     <div class="content">
-
-      <!-- CAMERA SECTION -->
       <div class="camera-box">
-
         <div class="camera-inner">
-
-          <!-- VIDEO FEED -->
-          <video
-            #videoElement
-            autoplay
-            muted
-            playsinline
-            class="video-feed">
-          </video>
-
-          <!-- CANVAS OVERLAY -->
-          <canvas
-            #canvasElement
-            class="canvas-overlay">
-          </canvas>
-
-          <!-- PLACEHOLDER (only before start) -->
+          <video #videoElement autoplay muted playsinline class="video-feed"></video>
+          <canvas #canvasElement class="canvas-overlay"></canvas>
+          
           <div class="placeholder" *ngIf="!isCameraRunning">
             <p>Camera Ready</p>
             <small>Click start to begin sign detection</small>
           </div>
-
         </div>
 
-        <!-- CONTROL BUTTON -->
-        <button
-          class="start-btn"
-          (click)="startCamera()"
-          [disabled]="isCameraRunning">
-          
+        <button class="start-btn" (click)="startCamera()" [disabled]="isCameraRunning">
           {{ isCameraRunning ? 'Recording...' : 'Start Recording' }}
         </button>
-
       </div>
 
-      <!-- RIGHT PANEL -->
       <div class="right">
-
         <h3>Conversation History</h3>
-
-        <!-- CHAT HISTORY -->
         <div class="chat">
           <div *ngFor="let msg of messages" class="bubble">
             <p>{{ msg.text }}</p>
             <span>{{ msg.time }}</span>
           </div>
         </div>
-
-        <!-- INPUT SECTION -->
         <div class="input">
-
-          <input
-            type="text"
-            placeholder="Or type your message..."
-            #messageInput />
-
-          <button>
-            Send
-          </button>
-
+          <input type="text" placeholder="Or type your message..." #messageInput />
+          <button>Send</button>
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

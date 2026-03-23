@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { Hands } from '@mediapipe/hands';
+import { Hands, Results } from '@mediapipe/hands';
 import { Camera } from '@mediapipe/camera_utils';
 
 interface Message {
@@ -29,10 +29,9 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
   @ViewChild('canvasElement') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   hands!: Hands;
-  camera!: Camera;
+  camera: any; // Using any because of specific MediaPipe typing quirks
 
   isCameraRunning = false;
-  lastProcessedTime = 0;
 
   messages: Message[] = [
     {
@@ -62,29 +61,23 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
 
   addMessage(text: string) {
     const last = this.messages[this.messages.length - 1];
-
     if (last?.text !== text) {
-      // Run inside Angular only when updating UI
       this.ngZone.run(() => {
-        this.messages.push({
-          text,
-          time: this.getTime()
-        });
+        this.messages.push({ text, time: this.getTime() });
       });
     }
   }
 
   initMediaPipe() {
     this.hands = new Hands({
-      locateFile: (file) =>
-        `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
     });
 
     this.hands.setOptions({
       maxNumHands: 1,
-      modelComplexity: 0, // 🔥 reduce load (IMPORTANT)
-      minDetectionConfidence: 0.6,
-      minTrackingConfidence: 0.6
+      modelComplexity: 0, 
+      minDetectionConfidence: 0.5,
+      minTrackingConfidence: 0.5
     });
 
     this.hands.onResults((results) => {
@@ -93,81 +86,79 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
   }
 
   startCamera() {
-    if (this.isCameraRunning) return; // prevent duplicate start
+    if (this.isCameraRunning) return;
 
     const video = this.videoRef.nativeElement;
 
-    this.ngZone.runOutsideAngular(() => {
-      this.camera = new Camera(video, {
-        onFrame: async () => {
+    // Start logic
+    this.camera = new Camera(video, {
+      onFrame: async () => {
+        // Just send the image; MediaPipe handles the internal loop
+        await this.hands.send({ image: video });
+      },
+      width: 640,
+      height: 480
+    });
 
-          // 🔥 Throttle frames (process every ~100ms)
-          const now = Date.now();
-          if (now - this.lastProcessedTime < 100) return;
-
-          this.lastProcessedTime = now;
-
-          await this.hands.send({ image: video });
-        },
-        width: 640,
-        height: 480
+    this.camera.start().then(() => {
+      this.ngZone.run(() => {
+        this.isCameraRunning = true;
       });
-
-      this.camera.start();
-      this.isCameraRunning = true;
     });
   }
 
-  onResults(results: any) {
+  onResults(results: Results) {
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d')!;
 
-    if (!results.image) return;
-
-    canvas.width = results.image.width;
-    canvas.height = results.image.height;
+    // Set canvas size to match video display size
+    if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+    }
 
     ctx.save();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(results.image, 0, 0, canvas.width, canvas.height);
 
-    if (results.multiHandLandmarks) {
+    // We DON'T draw the image here anymore because the <video> tag is already showing it.
+    // This saves a massive amount of CPU/GPU power.
+
+    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
       for (const landmarks of results.multiHandLandmarks) {
         this.drawLandmarks(ctx, landmarks);
       }
-
       this.detectGesture(results.multiHandLandmarks[0]);
     }
-
     ctx.restore();
   }
 
   drawLandmarks(ctx: CanvasRenderingContext2D, landmarks: any) {
-    ctx.fillStyle = 'lime';
+    ctx.fillStyle = '#1a3cff'; // Matching your brand blue
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 2;
 
-    for (let i = 0; i < landmarks.length; i++) {
-      const point = landmarks[i];
+    for (const point of landmarks) {
+      const x = point.x * ctx.canvas.width;
+      const y = point.y * ctx.canvas.height;
 
       ctx.beginPath();
-      ctx.arc(
-        point.x * ctx.canvas.width,
-        point.y * ctx.canvas.height,
-        5,
-        0,
-        Math.PI * 2
-      );
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
       ctx.fill();
+      ctx.stroke();
     }
   }
 
   detectGesture(landmarks: any) {
     const thumbTip = landmarks[4];
     const indexTip = landmarks[8];
+    const distance = Math.sqrt(
+      Math.pow(thumbTip.x - indexTip.x, 2) + 
+      Math.pow(thumbTip.y - indexTip.y, 2)
+    );
 
-    const distance = Math.abs(thumbTip.x - indexTip.x);
-
+    // Adjusted threshold for better pinch detection
     if (distance < 0.05) {
-      this.addMessage('Hello ');
+      this.addMessage('Gesture Detected');
     }
   }
 }
