@@ -12,7 +12,7 @@ interface Appointment {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
@@ -33,9 +33,14 @@ export class DoctorDashboard {
     { name: 'Michael Brown', issue: 'Back pain', time: '09:00 AM', status: 'completed' }
   ];
 
-  goToConsultation(patient: string) {
+  goToConsultation(appt: Appointment) {
     this.router.navigate(['/consultation'], {
-      queryParams: { patient }
+      queryParams: {
+        patient: appt.name,
+        status: appt.status,
+        issue: appt.issue,
+        time: appt.time
+      }
     });
   }
 }
