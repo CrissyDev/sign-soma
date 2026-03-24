@@ -51,7 +51,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     this.stopCamera();
   }
 
-  /* ================= TIME ================= */
   getTime(): string {
     return new Date().toLocaleTimeString([], {
       hour: '2-digit',
@@ -59,7 +58,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     });
   }
 
-  /* ================= CHAT ================= */
   addMessage(text: string) {
     const last = this.messages[this.messages.length - 1];
 
@@ -73,7 +71,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     }
   }
 
-  /* ================= MEDIAPIPE ================= */
   initMediaPipe() {
     this.hands = new Hands({
       locateFile: (file) =>
@@ -90,7 +87,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     this.hands.onResults((results) => this.onResults(results));
   }
 
-  /* ================= CAMERA CONTROL ================= */
   toggleCamera() {
     if (this.isCameraRunning) {
       this.stopCamera();
@@ -108,7 +104,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
       this.camera = new Camera(video, {
         onFrame: async () => {
 
-          // 🔥 Throttle frames (performance)
           const now = Date.now();
           if (now - this.lastProcessedTime < 100) return;
           this.lastProcessedTime = now;
@@ -128,13 +123,12 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
   }
 
   stopCamera() {
-    // 🔥 Stop MediaPipe camera
+
     if (this.camera) {
       this.camera.stop();
       this.camera = null;
     }
 
-    // 🔥 Stop webcam stream
     const video = this.videoRef?.nativeElement;
     if (video && video.srcObject) {
       const stream = video.srcObject as MediaStream;
@@ -142,7 +136,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
       video.srcObject = null;
     }
 
-    // 🔥 CLEAR CANVAS (FIXES BLUE DOTS ISSUE)
     const canvas = this.canvasRef?.nativeElement;
     if (canvas) {
       const ctx = canvas.getContext('2d');
@@ -150,7 +143,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
 
-      // Reset canvas fully
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
     }
@@ -160,16 +152,13 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     this.addMessage('Session ended.');
   }
 
-  /* ================= DRAWING ================= */
   onResults(results: Results) {
 
-    // 🔥 STOP drawing if camera is OFF
     if (!this.isCameraRunning) return;
 
     const canvas = this.canvasRef.nativeElement;
     const ctx = canvas.getContext('2d')!;
 
-    // Resize canvas if needed
     if (
       canvas.width !== canvas.clientWidth ||
       canvas.height !== canvas.clientHeight
@@ -178,7 +167,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
       canvas.height = canvas.clientHeight;
     }
 
-    // Clear previous frame
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     if (results.multiHandLandmarks?.length) {
@@ -203,7 +191,6 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
     }
   }
 
-  /* ================= GESTURE ================= */
   detectGesture(landmarks: any) {
     const thumbTip = landmarks[4];
     const indexTip = landmarks[8];

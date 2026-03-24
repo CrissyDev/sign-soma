@@ -1,24 +1,20 @@
 <div class="dashboard-wrapper">
   <div class="dashboard">
 
-    <!-- HEADER -->
     <div class="header">
       <div class="header-left">
         <h2>Medical Consultation</h2>
         <p>Sign Language Translation</p>
       </div>
 
-      <!-- 🔥 FIXED USER AREA -->
       <div class="user">
         <span>agnes001@gmail.com</span>
         <button class="logout-btn">Logout</button>
       </div>
     </div>
 
-    <!-- CONTENT -->
     <div class="content">
 
-      <!-- CAMERA -->
       <div class="camera-box">
         <div class="camera-inner">
           <video #videoElement autoplay muted playsinline class="video-feed"></video>
@@ -38,7 +34,6 @@
         </button>
       </div>
 
-      <!-- RIGHT PANEL -->
       <div class="right">
         <h3>Conversation History</h3>
 
@@ -46,14 +41,12 @@
           <div *ngFor="let msg of messages" class="bubble">
             <div class="bubble-text">{{ msg.text }}</div>
 
-            <!-- 🔥 TIME AS MESSAGE FOOTER -->
             <div class="bubble-footer">
               <span class="time">{{ msg.time }}</span>
             </div>
           </div>
         </div>
 
-        <!-- INPUT -->
         <div class="input">
           <input type="text" placeholder="Or type your message..." #messageInput />
           <button class="send-btn">Send</button>
