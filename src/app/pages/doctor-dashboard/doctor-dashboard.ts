@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 interface Appointment {
@@ -12,7 +12,7 @@ interface Appointment {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule], // ✅ REQUIRED
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css']
 })
@@ -34,6 +34,8 @@ export class DoctorDashboard {
   ];
 
   goToConsultation(appt: Appointment) {
+    console.log('Clicked:', appt); 
+
     this.router.navigate(['/consultation'], {
       queryParams: {
         patient: appt.name,

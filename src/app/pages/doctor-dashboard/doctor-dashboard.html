@@ -1,37 +1,8 @@
-<div class="header">
-    <div>
-      <h2>Doctor Dashboard</h2>
-      <small>Manage your patient consultations</small>
-    </div>
-    <button class="logout">Logout</button>
-  </div>
-  
-  <div class="cards">
-    <div class="card">
-      <h4>Active Consultations</h4>
-      <h2>{{ stats.active }}</h2>
-    </div>
-  
-    <div class="card">
-      <h4>Waiting Patients</h4>
-      <h2>{{ stats.waiting }}</h2>
-    </div>
-  
-    <div class="card">
-      <h4>Completed Today</h4>
-      <h2>{{ stats.completed }}</h2>
-    </div>
-  
-    <div class="card">
-      <h4>Total Patients</h4>
-      <h2>{{ stats.total }}</h2>
-    </div>
-  </div>
-  
-  <div class="appointments">
+<div class="appointments">
     <h3>Today's Appointments</h3>
   
     <div class="appointment" *ngFor="let appt of appointments">
+      
       <div class="patient">
         <div class="avatar"></div>
         <div>
@@ -40,8 +11,8 @@
         </div>
       </div>
   
-      <div>
-        {{ appt.time }}
+      <div class="right-section">
+        <span class="time">{{ appt.time }}</span>
   
         <span class="status"
           [ngClass]="{
@@ -52,10 +23,16 @@
           {{ appt.status }}
         </span>
   
-        <button class="action"
-          (click)="goToConsultation(appt.name)">
+        <!-- ✅ FIXED BUTTON -->
+        <button
+          type="button"
+          class="action"
+          (click)="goToConsultation(appt)">
+  
           {{ appt.status === 'completed' ? 'View' : (appt.status === 'active' ? 'Continue' : 'Start') }}
         </button>
+  
       </div>
+  
     </div>
   </div>

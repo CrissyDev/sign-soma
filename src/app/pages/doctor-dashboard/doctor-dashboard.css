@@ -76,12 +76,32 @@ body {
   .waiting { background: #eee; color: #777; }
   .completed { background: #d9f2e6; color: #2ecc71; }
   
+  .appointment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 15px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
   .action {
-    margin-left: 10px;
     background: #3b5cff;
     color: white;
     border: none;
     padding: 8px 14px;
     border-radius: 8px;
     cursor: pointer;
+    pointer-events: auto; 
+    position: relative;
+    z-index: 10;
+  }
+  
+  .action:hover {
+    opacity: 0.9;
   }
