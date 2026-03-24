@@ -4,6 +4,7 @@ import { Auth } from './pages/auth/auth';
 import { Login} from './pages/login/login';
 import { DoctorDashboard } from './pages/doctor-dashboard/doctor-dashboard';
 import { PatientDashboard } from './pages/patient-dashboard/patient-dashboard';
+import { Consultation } from './pages/consultation/consultation';
 
 export const routes: Routes = [
 
@@ -13,6 +14,7 @@ export const routes: Routes = [
   { path: 'login', component: Login },
   { path: 'doctor-dashboard', component: DoctorDashboard},
   { path: 'patient-dashboard', component: PatientDashboard },
+  { path: 'consultation', component: Consultation },
   { path: '**', redirectTo: 'onboarding' }
 
 ];
