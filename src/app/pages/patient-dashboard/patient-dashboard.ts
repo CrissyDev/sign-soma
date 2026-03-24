@@ -29,9 +29,10 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
   @ViewChild('canvasElement') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   hands!: Hands;
-  camera: any; 
+  camera: any;
 
   isCameraRunning = false;
+  lastProcessedTime = 0;
 
   messages: Message[] = [
     {
@@ -47,9 +48,7 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.camera) {
-      this.camera.stop();
-    }
+    this.stopCamera();
   }
 
   getTime(): string {
@@ -70,39 +69,67 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
 
   initMediaPipe() {
     this.hands = new Hands({
-      locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
+      locateFile: (file) =>
+        `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`
     });
 
     this.hands.setOptions({
       maxNumHands: 1,
-      modelComplexity: 0, 
-      minDetectionConfidence: 0.5,
-      minTrackingConfidence: 0.5
+      modelComplexity: 0,
+      minDetectionConfidence: 0.6,
+      minTrackingConfidence: 0.6
     });
 
-    this.hands.onResults((results) => {
-      this.onResults(results);
-    });
+    this.hands.onResults((results) => this.onResults(results));
+  }
+
+  /* 🔥 TOGGLE CAMERA */
+  toggleCamera() {
+    if (this.isCameraRunning) {
+      this.stopCamera();
+    } else {
+      this.startCamera();
+    }
   }
 
   startCamera() {
-    if (this.isCameraRunning) return;
-
     const video = this.videoRef.nativeElement;
 
-    this.camera = new Camera(video, {
-      onFrame: async () => {
-        await this.hands.send({ image: video });
-      },
-      width: 640,
-      height: 480
+    this.ngZone.runOutsideAngular(() => {
+      this.camera = new Camera(video, {
+        onFrame: async () => {
+
+          const now = Date.now();
+          if (now - this.lastProcessedTime < 100) return;
+          this.lastProcessedTime = now;
+
+          await this.hands.send({ image: video });
+        },
+        width: 960,   // 🔥 bigger camera
+        height: 720
+      });
+
+      this.camera.start();
     });
 
-    this.camera.start().then(() => {
-      this.ngZone.run(() => {
-        this.isCameraRunning = true;
-      });
-    });
+    this.isCameraRunning = true;
+  }
+
+  stopCamera() {
+    if (this.camera) {
+      this.camera.stop();
+      this.camera = null;
+    }
+
+    const video = this.videoRef?.nativeElement;
+    if (video && video.srcObject) {
+      const stream = video.srcObject as MediaStream;
+      stream.getTracks().forEach(track => track.stop());
+      video.srcObject = null;
+    }
+
+    this.isCameraRunning = false;
+    this.addMessage('Session ended.');
   }
 
   onResults(results: Results) {
@@ -114,40 +141,36 @@ export class PatientDashboard implements AfterViewInit, OnDestroy {
       canvas.height = canvas.clientHeight;
     }
 
-    ctx.save();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
-    if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+    if (results.multiHandLandmarks?.length) {
       for (const landmarks of results.multiHandLandmarks) {
         this.drawLandmarks(ctx, landmarks);
       }
+
       this.detectGesture(results.multiHandLandmarks[0]);
     }
-    ctx.restore();
   }
 
   drawLandmarks(ctx: CanvasRenderingContext2D, landmarks: any) {
-    ctx.fillStyle = '#1a3cff'; 
-    ctx.strokeStyle = 'white';
-    ctx.lineWidth = 2;
+    ctx.fillStyle = '#1a3cff';
 
     for (const point of landmarks) {
       const x = point.x * ctx.canvas.width;
       const y = point.y * ctx.canvas.height;
 
       ctx.beginPath();
-      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.arc(x, y, 5, 0, Math.PI * 2);
       ctx.fill();
-      ctx.stroke();
     }
   }
 
   detectGesture(landmarks: any) {
     const thumbTip = landmarks[4];
     const indexTip = landmarks[8];
+
     const distance = Math.sqrt(
-      Math.pow(thumbTip.x - indexTip.x, 2) + 
+      Math.pow(thumbTip.x - indexTip.x, 2) +
       Math.pow(thumbTip.y - indexTip.y, 2)
     );
 

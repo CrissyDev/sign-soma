@@ -1,46 +1,65 @@
 <div class="dashboard-wrapper">
   <div class="dashboard">
+
+    <!-- HEADER -->
     <div class="header">
-      <div>
+      <div class="header-left">
         <h2>Medical Consultation</h2>
         <p>Sign Language Translation</p>
       </div>
+
+      <!-- 🔥 FIXED USER AREA -->
       <div class="user">
-        <span>farida2001ahmed</span>
-        <button>Logout</button>
+        <span>agnes001@gmail.com</span>
+        <button class="logout-btn">Logout</button>
       </div>
     </div>
 
+    <!-- CONTENT -->
     <div class="content">
+
+      <!-- CAMERA -->
       <div class="camera-box">
         <div class="camera-inner">
           <video #videoElement autoplay muted playsinline class="video-feed"></video>
           <canvas #canvasElement class="canvas-overlay"></canvas>
-          
+
           <div class="placeholder" *ngIf="!isCameraRunning">
             <p>Camera Ready</p>
             <small>Click start to begin sign detection</small>
           </div>
         </div>
 
-        <button class="start-btn" (click)="startCamera()" [disabled]="isCameraRunning">
-          {{ isCameraRunning ? 'Recording...' : 'Start Recording' }}
+        <button
+          class="start-btn"
+          [ngClass]="{ 'stop-btn': isCameraRunning }"
+          (click)="toggleCamera()">
+          {{ isCameraRunning ? 'Stop Recording' : 'Start Recording' }}
         </button>
       </div>
 
+      <!-- RIGHT PANEL -->
       <div class="right">
         <h3>Conversation History</h3>
+
         <div class="chat">
           <div *ngFor="let msg of messages" class="bubble">
-            <p>{{ msg.text }}</p>
-            <span>{{ msg.time }}</span>
+            <div class="bubble-text">{{ msg.text }}</div>
+
+            <!-- 🔥 TIME AS MESSAGE FOOTER -->
+            <div class="bubble-footer">
+              <span class="time">{{ msg.time }}</span>
+            </div>
           </div>
         </div>
+
+        <!-- INPUT -->
         <div class="input">
           <input type="text" placeholder="Or type your message..." #messageInput />
-          <button>Send</button>
+          <button class="send-btn">Send</button>
         </div>
       </div>
+
     </div>
   </div>
 </div>
