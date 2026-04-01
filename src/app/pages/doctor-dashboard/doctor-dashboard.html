@@ -1,38 +1,71 @@
-<div class="appointments">
-    <h3>Today's Appointments</h3>
-  
-    <div class="appointment" *ngFor="let appt of appointments">
-      
-      <div class="patient">
-        <div class="avatar"></div>
-        <div>
-          <strong>{{ appt.name }}</strong><br>
-          <small>{{ appt.issue }}</small>
-        </div>
-      </div>
-  
-      <div class="right-section">
-        <span class="time">{{ appt.time }}</span>
-  
-        <span class="status"
-          [ngClass]="{
-            'active': appt.status === 'active',
-            'waiting': appt.status === 'waiting',
-            'completed': appt.status === 'completed'
-          }">
-          {{ appt.status }}
-        </span>
-  
-        <!-- ✅ FIXED BUTTON -->
-        <button
-          type="button"
-          class="action"
-          (click)="goToConsultation(appt)">
-  
-          {{ appt.status === 'completed' ? 'View' : (appt.status === 'active' ? 'Continue' : 'Start') }}
-        </button>
-  
-      </div>
-  
-    </div>
+<div class="header">
+  <div>
+    <h2>Doctor Dashboard</h2>
+    <p>Manage your patient consultations</p>
   </div>
+
+  <div class="user">
+    <span class="username">christalriziki</span>
+    <div class="avatar-sm"></div>
+    <button class="logout">Logout</button>
+  </div>
+</div>
+
+<div class="cards">
+  <div class="card">
+    <h4>Active Consultations</h4>
+    <h2>{{ stats.active }}</h2>
+  </div>
+
+  <div class="card">
+    <h4>Waiting Patients</h4>
+    <h2>{{ stats.waiting }}</h2>
+  </div>
+
+  <div class="card">
+    <h4>Completed Today</h4>
+    <h2>{{ stats.completed }}</h2>
+  </div>
+
+  <div class="card">
+    <h4>Total Patients</h4>
+    <h2>{{ stats.total }}</h2>
+  </div>
+</div>
+
+<div class="appointments">
+  <h3>Today's Appointments</h3>
+
+  <div class="appointment" *ngFor="let appt of appointments">
+
+    <div class="patient">
+      <div class="avatar"></div>
+      <div>
+        <strong>{{ appt.name }}</strong>
+        <p class="issue">{{ appt.issue }}</p>
+      </div>
+    </div>
+
+    <div class="right-section">
+      <span class="time">{{ appt.time }}</span>
+
+      <span class="status"
+        [ngClass]="{
+          'active': appt.status === 'active',
+          'waiting': appt.status === 'waiting',
+          'completed': appt.status === 'completed'
+        }">
+        {{ appt.status | titlecase }}
+      </span>
+
+      <button
+        type="button"
+        class="action"
+        (click)="goToConsultation(appt)">
+
+        {{ appt.status === 'completed' ? 'View' : (appt.status === 'active' ? 'Continue' : 'Start') }}
+      </button>
+    </div>
+
+  </div>
+</div>

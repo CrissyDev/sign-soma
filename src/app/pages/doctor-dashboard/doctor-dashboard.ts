@@ -12,9 +12,9 @@ interface Appointment {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterModule], // ✅ REQUIRED
-  templateUrl: './dashboard.html',
-  styleUrls: ['./dashboard.css']
+  imports: [CommonModule, RouterModule],
+  templateUrl: './doctor-dashboard.html',
+  styleUrls: ['./doctor-dashboard.css']
 })
 export class DoctorDashboard {
 
@@ -34,8 +34,6 @@ export class DoctorDashboard {
   ];
 
   goToConsultation(appt: Appointment) {
-    console.log('Clicked:', appt); 
-
     this.router.navigate(['/consultation'], {
       queryParams: {
         patient: appt.name,

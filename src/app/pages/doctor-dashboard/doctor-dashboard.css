@@ -1,107 +1,167 @@
 body {
-    font-family: Arial;
-    background: #f5f7fb;
-  }
-  
-  .header {
-    display: flex;
-    justify-content: space-between;
-    padding: 20px 40px;
-    background: white;
-  }
-  
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    padding: 30px 40px;
-  }
-  
-  .card {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    transition: 0.3s;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-  }
-  
-  .card:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
-  }
-  
-  .card h4 {
-    color: #777;
-  }
-  
-  .card h2 {
-    color: #3b5cff;
-  }
-  
-  .appointments {
-    margin: 0 40px;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-  }
-  
-  .appointment {
-    display: flex;
-    justify-content: space-between;
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .patient {
-    display: flex;
-    align-items: center;
-  }
-  
-  .avatar {
-    width: 40px;
-    height: 40px;
-    background: #ddd;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .status {
-    margin-left: 10px;
-    padding: 5px 10px;
-    border-radius: 10px;
-    font-size: 12px;
-  }
-  
-  .active { background: #dce3ff; color: #3b5cff; }
-  .waiting { background: #eee; color: #777; }
-  .completed { background: #d9f2e6; color: #2ecc71; }
-  
-  .appointment {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; 
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
-  }
-  
-  .right-section {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .action {
-    background: #3b5cff;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 8px;
-    cursor: pointer;
-    pointer-events: auto; 
-    position: relative;
-    z-index: 10;
-  }
-  
-  .action:hover {
-    opacity: 0.9;
-  }
+  font-family: 'Inter', Arial, sans-serif;
+  background: #f5f7fb;
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 40px;
+  background: white;
+  border-bottom: 1px solid #eee;
+}
+
+.header h2 {
+  margin: 0;
+}
+
+.header p {
+  margin: 5px 0 0;
+  color: #777;
+  font-size: 14px;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar-sm {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #ddd;
+}
+
+.logout {
+  background: #f1f3f9;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding: 30px 40px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card h4 {
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.card h2 {
+  color: #3b5cff;
+  margin: 0;
+}
+
+.appointments {
+  margin: 0 40px 40px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+
+.appointments h3 {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.appointment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f1f1f1;
+  transition: 0.2s;
+}
+
+.appointment:hover {
+  background: #fafbff;
+}
+
+.patient {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  background: #e0e4ff;
+  border-radius: 50%;
+}
+
+.issue {
+  margin: 2px 0 0;
+  color: #777;
+  font-size: 13px;
+}
+
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.time {
+  font-size: 14px;
+  color: #555;
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  text-transform: capitalize;
+}
+
+.active {
+  background: #e0e7ff;
+  color: #3b5cff;
+}
+
+.waiting {
+  background: #f1f1f1;
+  color: #777;
+}
+
+.completed {
+  background: #e6f7ee;
+  color: #2ecc71;
+}
+
+.action {
+  background: #3b5cff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.action:hover {
+  background: #2f4ae0;
+}
