@@ -1,85 +1,76 @@
 <div class="consultation-wrapper">
+  <div class="consultation-grid">
 
-    <div class="consultation-grid">
-  
-      <!-- LEFT PANEL -->
-      <div class="left-panel">
-  
-        <!-- PATIENT CARD -->
-        <div class="patient-card">
-          <div class="patient-header">
-            <div class="avatar"></div>
-            <div>
-              <h4>{{ patientName || 'John Smith' }}</h4>
-              <p>Patient ID: #1</p>
-            </div>
-          </div>
-  
-          <!-- CAMERA -->
-          <div class="camera-box">
-            <video #videoElement autoplay muted playsinline></video>
-            <canvas #canvasElement></canvas>
-  
-            <div class="placeholder" *ngIf="!isCameraRunning">
-              <p>Patient Camera Feed</p>
-            </div>
-  
-            <button
-              class="camera-btn"
-              [ngClass]="{ 'stop': isCameraRunning }"
-              (click)="toggleCamera()">
-              {{ isCameraRunning ? 'Stop Camera' : 'Start Camera' }}
-            </button>
-          </div>
-  
-          <!-- DETAILS -->
-          <div class="patient-details">
-            <p><strong>Chief Complaint</strong><br>{{ issue }}</p>
-            <p><strong>Appointment Time</strong><br>{{ time }}</p>
-            <p><strong>Session Status</strong><br>
-              <span class="status active">Active</span>
-            </p>
+    <div class="left-panel">
+      <div class="patient-card">
+        <div class="patient-header">
+          <div class="avatar"></div>
+          <div>
+            <h4>{{ patientName }}</h4>
+            <p>Patient ID: #1</p>
           </div>
         </div>
-  
-        <!-- NOTES -->
-        <div class="notes">
-          <h4>Doctor Notes</h4>
-          <textarea placeholder="Add clinical notes about this patient..."></textarea>
-          <button>Save Notes</button>
+
+        <div class="camera-box">
+          <video #videoElement autoplay muted playsinline></video>
+          <canvas #canvasElement></canvas>
+
+          <div class="placeholder" *ngIf="!isCameraRunning">
+            <p>Patient Camera Feed Off</p>
+          </div>
+
+          <button
+            class="camera-btn"
+            [ngClass]="{ 'stop': isCameraRunning }"
+            (click)="toggleCamera()">
+            {{ isCameraRunning ? 'Stop AI Interpreter' : 'Start AI Interpreter' }}
+          </button>
         </div>
-  
+
+        <div class="patient-details">
+          <p><strong>Chief Complaint</strong><br>{{ issue }}</p>
+          <p><strong>Appointment Time</strong><br>{{ time }}</p>
+          <p><strong>Session Status</strong><br>
+            <span class="status" [style.color]="isCameraRunning ? '#10b981' : '#3b5cff'">
+              {{ isCameraRunning ? 'AI Interpreting...' : 'Ready' }}
+            </span>
+          </p>
+        </div>
       </div>
-  
-      <!-- RIGHT PANEL -->
-      <div class="right-panel">
-  
-        <div class="chat-header">
-          <h3>Live Translation</h3>
-          <p>Real-time sign language interpretation</p>
-        </div>
-  
-        <!-- CHAT -->
-        <div class="chat">
-  
-          <div *ngFor="let msg of messages"
-               [ngClass]="msg.type === 'doctor' ? 'bubble doctor' : 'bubble patient'">
-  
+
+      <div class="notes">
+        <h4>Doctor Notes</h4>
+        <textarea #notesArea placeholder="Add clinical notes about this patient..."></textarea>
+        <button (click)="notesArea.value = ''">Save Notes</button>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="chat-header">
+        <h3>Live Translation</h3>
+        <p>Real-time medical sign language interpretation</p>
+      </div>
+
+      <div class="chat">
+        <div class="message-container" *ngFor="let msg of messages" 
+             [ngStyle]="{'display': 'flex', 'flex-direction': 'column', 'align-items': msg.type === 'doctor' ? 'flex-end' : 'flex-start'}">
+          
+          <div [ngClass]="msg.type === 'doctor' ? 'bubble doctor' : 'bubble patient'">
             <div class="text">{{ msg.text }}</div>
             <span class="time">{{ msg.time }}</span>
           </div>
-  
+
         </div>
-  
-        <!-- INPUT -->
-        <div class="chat-input">
-          <input type="text" placeholder="Type your message..." #messageInput />
-          <button (click)="sendMessage(messageInput.value); messageInput.value=''">
-            Send
-          </button>
-        </div>
-  
       </div>
-  
+
+      <div class="chat-input">
+        <input type="text" placeholder="Type your response to the patient..." #messageInput 
+               (keyup.enter)="sendMessage(messageInput.value); messageInput.value=''"/>
+        <button (click)="sendMessage(messageInput.value); messageInput.value=''">
+          Send
+        </button>
+      </div>
     </div>
+
   </div>
+</div>
