@@ -4,7 +4,7 @@
     <div class="header">
       <div class="header-left">
         <h2>Medical Consultation</h2>
-        <p>Sign Language Translation</p>
+        <p>Sign Language Translation (AI Powered)</p>
       </div>
 
       <div class="user">
@@ -38,8 +38,10 @@
         <h3>Conversation History</h3>
 
         <div class="chat">
-          <div *ngFor="let msg of messages" class="bubble">
-            <div class="bubble-text">{{ msg.text }}</div>
+          <div *ngFor="let msg of messages()" class="bubble" [ngClass]="{'ai-bubble': msg.isAi}">
+            <div class="bubble-text">
+              <strong>{{ msg.isAi ? 'AI Interpreter' : 'Patient' }}:</strong> {{ msg.text }}
+            </div>
 
             <div class="bubble-footer">
               <span class="time">{{ msg.time }}</span>
@@ -49,10 +51,10 @@
 
         <div class="input">
           <input type="text" placeholder="Or type your message..." #messageInput />
-          <button class="send-btn">Send</button>
+          <button class="send-btn" (click)="addMessage(messageInput.value, false); messageInput.value=''">Send</button>
         </div>
       </div>
 
     </div>
   </div>
-</div>
+</div> 

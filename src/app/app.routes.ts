@@ -3,7 +3,7 @@ import { Onboarding } from './pages/onboarding/onboarding';
 import { Auth } from './pages/auth/auth';
 import { Login} from './pages/login/login';
 import { DoctorDashboard } from './pages/doctor-dashboard/doctor-dashboard';
-import { PatientDashboard } from './pages/patient-dashboard/patient-dashboard';
+ import { PatientDashboard } from './pages/patient-dashboard/patient-dashboard';
 import { Consultation } from './pages/consultation/consultation';
 
 export const routes: Routes = [
