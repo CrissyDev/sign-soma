@@ -11,6 +11,9 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./auth.css']
 })
 export class Auth {
+  login(email: string, password: string) {
+    throw new Error('Method not implemented.');
+  }
 
   role: string = 'patient';
   email = '';

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Auth } from '../auth/auth';
 
 @Component({
   selector: 'app-login',
@@ -11,14 +12,35 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./login.css']
 })
 export class Login {
+  private authService = inject(Auth);
+  private router = inject(Router);
 
-  username = '';
+  email = '';
   password = '';
+  isLoading = false;
 
-  constructor(private router: Router) {}
+  async onLogin() {
+    if (!this.email || !this.password) {
+      alert('Please enter both email and password.');
+      return;
+    }
 
-  login() {
-    if (this.username === 'doctor') {
+    this.isLoading = true;
+    try {
+      await this.authService.login(this.email, this.password);
+      
+    } catch (error: any) {
+      this.isLoading = false;
+      let errorMessage = "Login failed. Please check your credentials.";
+      if (error.code === 'auth/user-not-found') errorMessage = "No user found with this email.";
+      if (error.code === 'auth/wrong-password') errorMessage = "Incorrect password.";
+      
+      alert(errorMessage);
+    }
+  }
+
+  bypassLogin(role: string) {
+    if (role === 'doctor') {
       this.router.navigate(['/doctor-dashboard']);
     } else {
       this.router.navigate(['/patient-dashboard']);

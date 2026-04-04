@@ -15,7 +15,7 @@
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
-    "@angular/fire": "^0.0.0",
+    "@angular/fire": "^20.0.1",
     "@angular/forms": "^21.2.0",
     "@angular/platform-browser": "^21.2.0",
     "@angular/platform-server": "^21.2.0",
@@ -25,6 +25,7 @@
     "@mediapipe/camera_utils": "^0.3.1675466862",
     "@mediapipe/hands": "^0.4.1675469240",
     "express": "^5.1.0",
+    "firebase": "^12.11.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },
