@@ -4,12 +4,13 @@ export const environment = {
 
     // Firebase Configuration
   firebase: {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-project-id.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project-id.appspot.com",
-    messagingSenderId: "1234567890",
-    appId: "1:1234567890:web:abcdef123456",
-    measurementId: "G-ABCDEFGH"
+    apiKey: "AIzaSyALdjDXo68_mkTIk7muh702v5R5zPzATQ8",
+  authDomain: "gen-lang-client-0755878925.firebaseapp.com",
+  projectId: "gen-lang-client-0755878925",
+  storageBucket: "gen-lang-client-0755878925.firebasestorage.app",
+  messagingSenderId: "361609012347",
+  appId: "1:361609012347:web:cf60d868a855fb4d35eede",
+  measurementId: "G-FV7J4E0RWF"
+
   }
   };
