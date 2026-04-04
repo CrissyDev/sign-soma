@@ -12,7 +12,6 @@
           </div>
         </div>
 
-        <!-- CAMERA -->
         <div class="camera-box">
           <video #videoElement autoplay muted playsinline></video>
           <canvas #canvasElement></canvas>
@@ -21,7 +20,6 @@
             <p>Camera Off</p>
           </div>
 
-          <!-- ✅ FIXED BUTTON -->
           <button
             class="camera-btn"
             [ngClass]="{ 'stop': isCameraRunning }"
@@ -52,7 +50,6 @@
       </div>
     </div>
 
-    <!-- RIGHT SIDE -->
     <div class="right-panel">
       <div class="chat-header">
         <h3>Live Translation</h3>

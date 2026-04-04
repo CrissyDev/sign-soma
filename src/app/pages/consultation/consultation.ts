@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import { Hands, Results } from '@mediapipe/hands';
-import { Camera } from '@mediapipe/camera_utils'; // ✅ IMPORTANT
+import { Camera } from '@mediapipe/camera_utils'; 
 import { GeminiService } from '../../services/gemini.service';
 
 interface Message {
@@ -34,7 +34,7 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('canvasElement') canvasRef!: ElementRef<HTMLCanvasElement>;
 
   hands!: Hands;
-  camera: Camera | null = null; // ✅ SAME AS DASHBOARD
+  camera: Camera | null = null; 
 
   isCameraRunning = false;
 
@@ -53,7 +53,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     private gemini: GeminiService
   ) {}
 
-  /* ---------------- INIT ---------------- */
   ngOnInit() {
     this.patientName = this.route.snapshot.queryParams['patient'] || 'John Smith';
     this.issue = this.route.snapshot.queryParams['issue'] || 'General Consultation';
@@ -74,7 +73,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     this.stopCamera();
   }
 
-  /* ---------------- TIME ---------------- */
   getTime(): string {
     return new Date().toLocaleTimeString([], {
       hour: '2-digit',
@@ -82,7 +80,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /* ---------------- CHAT ---------------- */
   sendMessage(text: string) {
     if (!text.trim()) return;
 
@@ -107,7 +104,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  /* ---------------- MEDIAPIPE ---------------- */
   initMediaPipe() {
     this.hands = new Hands({
       locateFile: (file) =>
@@ -124,7 +120,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     this.hands.onResults((results: Results) => this.onResults(results));
   }
 
-  /* ---------------- CAMERA CONTROL ---------------- */
   toggleCamera() {
     this.isCameraRunning ? this.stopCamera() : this.startCamera();
   }
@@ -140,7 +135,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
 
           const now = Date.now();
 
-          // ✅ throttle frames (same as dashboard logic)
           if (now - this.lastProcessedTime < 100) return;
           this.lastProcessedTime = now;
 
@@ -152,7 +146,7 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
         height: 720
       });
 
-      this.camera.start(); // ✅ THIS is what actually starts camera
+      this.camera.start(); 
     });
 
     this.isCameraRunning = true;
@@ -186,7 +180,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     this.addAiMessage('Camera stopped.');
   }
 
-  /* ---------------- RESULTS ---------------- */
   onResults(results: Results) {
 
     if (!this.isCameraRunning) return;
@@ -213,7 +206,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
 
       const now = Date.now();
 
-      // ✅ Gemini throttle
       if (now - this.lastGeminiTime > 3000) {
         this.lastGeminiTime = now;
         this.processAiTranslation(landmarks);
@@ -221,7 +213,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /* ---------------- GEMINI ---------------- */
   async processAiTranslation(landmarks: any) {
     try {
       const res = await this.gemini.translate(landmarks);
@@ -235,7 +226,6 @@ export class Consultation implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  /* ---------------- DRAW ---------------- */
   drawLandmarks(ctx: CanvasRenderingContext2D, landmarks: any) {
     ctx.fillStyle = '#1a3cff';
 

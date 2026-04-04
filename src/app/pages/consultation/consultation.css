@@ -1,183 +1,148 @@
 .consultation-wrapper {
-    background: #f5f7fb;
-    min-height: 100vh;
-    padding: 20px;
-  }
-  
-  .consultation-grid {
-    display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 20px;
-  }
-  
-  .left-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  .patient-card {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.05);
-  }
-  
-  .patient-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px;
-    background: #eef2ff;
-  }
-  
-  .avatar {
-    width: 45px;
-    height: 45px;
-    background: #cfd8ff;
-    border-radius: 50%;
-  }
-  
-  .camera-box {
-    position: relative;
-    height: 250px;
-    background: #000;
-  }
-  
-  .camera-box video,
-  .camera-box canvas {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .placeholder {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #aaa;
-  }
-  
-  .camera-btn {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    right: 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    background: #3b5cff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .camera-btn.stop {
-    background: #ff4d4d;
-  }
-  
-  .patient-details {
-    padding: 15px;
-    font-size: 14px;
-  }
-  
-  .status {
-    padding: 4px 10px;
-    border-radius: 12px;
-    background: #e0e7ff;
-    color: #3b5cff;
-  }
-  
-  .notes {
-    background: white;
-    padding: 15px;
-    border-radius: 16px;
-  }
-  
-  .notes textarea {
-    width: 100%;
-    height: 100px;
-    margin: 10px 0;
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-  }
-  
-  .notes button {
-    width: 100%;
-    padding: 10px;
-    background: #1a3cff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-  }
-  
-  .right-panel {
-    background: white;
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-  }
-  
-  .chat-header p {
-    color: #777;
-    font-size: 14px;
-  }
-  
-  .chat {
-    flex: 1;
-    overflow-y: auto;
-    padding: 10px 0;
-  }
-  
-  .bubble {
-    max-width: 70%;
-    padding: 12px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-  }
-  
-  .patient {
-    background: #eef2ff;
-    align-self: flex-start;
-  }
-  
-  .doctor {
-    background: #3b5cff;
-    color: white;
-    align-self: flex-end;
-  }
-  
-  .time {
-    font-size: 11px;
-    display: block;
-    margin-top: 5px;
-    opacity: 0.7;
-  }
-  
-  .chat-input {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .chat-input input {
-    flex: 1;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-  }
-  
-  .chat-input button {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 10px;
-    background: #3b5cff;
-    color: white;
-  }
+  background: #f5f7fb;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.consultation-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 20px;
+}
+
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.patient-card {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.05);
+}
+
+.patient-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  background: #eef2ff;
+}
+
+.avatar {
+  width: 45px;
+  height: 45px;
+  background: #cfd8ff;
+  border-radius: 50%;
+}
+
+.camera-box {
+  position: relative;
+  height: 250px;
+  background: #000;
+  overflow: hidden;
+}
+
+.camera-box video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+.camera-box canvas {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  pointer-events: none; 
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #aaa;
+  z-index: 3;
+}
+
+.camera-btn {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 4; 
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #3b5cff;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.camera-btn:hover {
+  opacity: 0.9;
+}
+
+.camera-btn.stop {
+  background: #ff4d4d;
+}
+
+.patient-details {
+  padding: 15px;
+  font-size: 14px;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 12px;
+  background: #eef2ff;
+  font-weight: 600;
+}
+
+.notes {
+  background: white;
+  padding: 15px;
+  border-radius: 16px;
+}
+
+.notes textarea {
+  width: 100%;
+  height: 100px;
+  margin: 10px 0;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.notes button {
+  width: 100%;
+  padding: 10px;
+  background: #1a3cff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.right-panel {
+  background: white;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.chat-header p {
+  color: #777;
+  font-size: 14px;
+}
 
 .chat {
   flex: 1;
@@ -185,14 +150,13 @@
   padding: 10px 0;
   display: flex;
   flex-direction: column;
-  gap: 8px; 
+  gap: 8px;
 }
 
 .bubble {
   max-width: 80%;
   padding: 12px 16px;
   border-radius: 18px;
-  position: relative;
   font-size: 14px;
   line-height: 1.4;
 }
@@ -216,26 +180,23 @@
   opacity: 0.6;
 }
 
-.status {
-  padding: 4px 10px;
-  border-radius: 12px;
-  background: #eef2ff;
-  font-weight: 600;
-  transition: all 0.3s ease;
+.chat-input {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-.placeholder p {
-  background: rgba(0,0,0,0.5);
-  padding: 8px 16px;
-  border-radius: 20px;
-  border: 1px solid #444;
+.chat-input input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
 }
 
-.camera-box canvas {
-  pointer-events: none; 
-  z-index: 2;
-}
-
-.camera-box video {
-  z-index: 1;
+.chat-input button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #3b5cff;
+  color: white;
 }
