@@ -3,6 +3,7 @@
 
     <div class="left-panel">
       <div class="patient-card">
+
         <div class="patient-header">
           <div class="avatar"></div>
           <div>
@@ -11,28 +12,34 @@
           </div>
         </div>
 
+        <!-- CAMERA -->
         <div class="camera-box">
           <video #videoElement autoplay muted playsinline></video>
           <canvas #canvasElement></canvas>
 
           <div class="placeholder" *ngIf="!isCameraRunning">
-            <p>Patient Camera Feed Off</p>
+            <p>Camera Off</p>
           </div>
 
+          <!-- ✅ FIXED BUTTON -->
           <button
             class="camera-btn"
             [ngClass]="{ 'stop': isCameraRunning }"
             (click)="toggleCamera()">
-            {{ isCameraRunning ? 'Stop AI Interpreter' : 'Start AI Interpreter' }}
+
+            {{ isCameraRunning ? 'Stop Camera' : 'Start Camera' }}
+
           </button>
         </div>
 
         <div class="patient-details">
           <p><strong>Chief Complaint</strong><br>{{ issue }}</p>
           <p><strong>Appointment Time</strong><br>{{ time }}</p>
-          <p><strong>Session Status</strong><br>
-            <span class="status" [style.color]="isCameraRunning ? '#10b981' : '#3b5cff'">
-              {{ isCameraRunning ? 'AI Interpreting...' : 'Ready' }}
+
+          <p>
+            <strong>Session Status</strong><br>
+            <span class="status">
+              {{ isCameraRunning ? 'Camera Live' : 'Ready' }}
             </span>
           </p>
         </div>
@@ -40,11 +47,12 @@
 
       <div class="notes">
         <h4>Doctor Notes</h4>
-        <textarea #notesArea placeholder="Add clinical notes about this patient..."></textarea>
+        <textarea #notesArea placeholder="Add clinical notes..."></textarea>
         <button (click)="notesArea.value = ''">Save Notes</button>
       </div>
     </div>
 
+    <!-- RIGHT SIDE -->
     <div class="right-panel">
       <div class="chat-header">
         <h3>Live Translation</h3>
@@ -52,20 +60,21 @@
       </div>
 
       <div class="chat">
-        <div class="message-container" *ngFor="let msg of messages" 
-             [ngStyle]="{'display': 'flex', 'flex-direction': 'column', 'align-items': msg.type === 'doctor' ? 'flex-end' : 'flex-start'}">
-          
-          <div [ngClass]="msg.type === 'doctor' ? 'bubble doctor' : 'bubble patient'">
-            <div class="text">{{ msg.text }}</div>
-            <span class="time">{{ msg.time }}</span>
-          </div>
+        <div *ngFor="let msg of messages"
+             [style.alignSelf]="msg.type === 'doctor' ? 'flex-end' : 'flex-start'"
+             class="bubble"
+             [ngClass]="msg.type">
 
+          {{ msg.text }}
+          <span class="time">{{ msg.time }}</span>
         </div>
       </div>
 
       <div class="chat-input">
-        <input type="text" placeholder="Type your response to the patient..." #messageInput 
-               (keyup.enter)="sendMessage(messageInput.value); messageInput.value=''"/>
+        <input #messageInput type="text"
+          placeholder="Type message..."
+          (keyup.enter)="sendMessage(messageInput.value); messageInput.value=''" />
+
         <button (click)="sendMessage(messageInput.value); messageInput.value=''">
           Send
         </button>
