@@ -15,9 +15,9 @@ export class Login {
   private authService = inject(Auth);
   private router = inject(Router);
 
-  email = '';
-  password = '';
-  isLoading = false;
+  email: string = '';
+  password: string = '';
+  isLoading: boolean = false;
 
   async onLogin() {
     if (!this.email || !this.password) {
@@ -26,16 +26,26 @@ export class Login {
     }
 
     this.isLoading = true;
+
     try {
       await this.authService.login(this.email, this.password);
-      
+
+      this.router.navigate(['/patient-dashboard']);
+
     } catch (error: any) {
-      this.isLoading = false;
       let errorMessage = "Login failed. Please check your credentials.";
-      if (error.code === 'auth/user-not-found') errorMessage = "No user found with this email.";
-      if (error.code === 'auth/wrong-password') errorMessage = "Incorrect password.";
-      
+
+      if (error.code === 'auth/user-not-found') {
+        errorMessage = "No user found with this email.";
+      }
+
+      if (error.code === 'auth/wrong-password') {
+        errorMessage = "Incorrect password.";
+      }
+
       alert(errorMessage);
+    } finally {
+      this.isLoading = false;
     }
   }
 

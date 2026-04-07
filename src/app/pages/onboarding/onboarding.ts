@@ -1,5 +1,5 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common'; 
+import { Component, OnInit, OnDestroy, PLATFORM_ID, Inject, afterNextRender } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common'; 
 import { RouterModule } from '@angular/router'; 
 
 @Component({
@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 export class Onboarding implements OnInit, OnDestroy {
 
   currentIndex = 0;
-  intervalId: any;
+  private intervalId: any;
 
   slides = [
     {
@@ -32,8 +32,16 @@ export class Onboarding implements OnInit, OnDestroy {
     }
   ];
 
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    // This is the modern Angular way to handle browser-only logic.
+    // It ensures the slider only starts once the user actually sees the page.
+    afterNextRender(() => {
+      this.startAutoSlide();
+    });
+  }
+
   ngOnInit() {
-    this.startAutoSlide();
+    // We removed startAutoSlide from here to prevent SSR timeouts.
   }
 
   ngOnDestroy() {
@@ -41,14 +49,19 @@ export class Onboarding implements OnInit, OnDestroy {
   }
 
   startAutoSlide() {
-    this.intervalId = setInterval(() => {
-      this.nextSlide();
-    }, 4000);
+    // Double check we are in the browser before setting an interval
+    if (isPlatformBrowser(this.platformId)) {
+      this.stopAutoSlide(); // Clear any existing interval first
+      this.intervalId = setInterval(() => {
+        this.nextSlide();
+      }, 4000);
+    }
   }
 
   stopAutoSlide() {
     if (this.intervalId) {
       clearInterval(this.intervalId);
+      this.intervalId = null;
     }
   }
 
@@ -58,6 +71,8 @@ export class Onboarding implements OnInit, OnDestroy {
 
   goToSlide(index: number) {
     this.currentIndex = index;
+    // Optional: Restart timer when user manually clicks a dot
+    this.startAutoSlide();
   }
 
   onMouseEnter() {
