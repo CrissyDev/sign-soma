@@ -1,23 +1,28 @@
-<div class="onboarding-container">
+<div class="onboarding-container" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 
   <div class="logo">
-    <img src="assets/WhatsApp Image 2026-03-19 at 11.36.42 AM.jpeg" alt="Sign Soma Logo">
+    <img src="assets/WhatsApp Image 2026-03-19 at 11.36.42 AM.jpeg" 
+         alt="Sign Soma Logo" 
+         width="75" 
+         height="75">
   </div>
 
   <div class="main-content">
 
     <div class="left">
-
       <h1>{{ slides[currentIndex].title }}</h1>
       <p class="desc">{{ slides[currentIndex].description }}</p>
 
-      <button class="btn-main" routerLink="/auth">
-        Get Started
-      </button>
+      <div class="action-buttons">
+        <button class="btn-main" routerLink="/signup">
+          Get Started
+        </button>
 
-      <p class="login-text" routerLink="/login">
-        I already have an account
-      </p>
+        <div class="login-prompt">
+          <span>I already have an account</span>
+          <button class="btn-secondary" routerLink="/login">Log In</button>
+        </div>
+      </div>
 
       <div class="dots">
         <span *ngFor="let slide of slides; let i = index"
@@ -25,17 +30,13 @@
               [class.active]="i === currentIndex">
         </span>
       </div>
-
     </div>
 
     <div class="right">
-
       <div class="slider">
-        <img [src]="slides[currentIndex].image" class="slide-img" />
+        <img [src]="slides[currentIndex].image" class="slide-img" alt="Onboarding Slide" />
       </div>
-
     </div>
 
   </div>
-
 </div>

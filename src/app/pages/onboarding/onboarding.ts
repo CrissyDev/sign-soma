@@ -10,7 +10,6 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./onboarding.css']
 })
 export class Onboarding implements OnInit, OnDestroy {
-
   currentIndex = 0;
   private intervalId: any;
 
@@ -33,25 +32,20 @@ export class Onboarding implements OnInit, OnDestroy {
   ];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {
-    // This is the modern Angular way to handle browser-only logic.
-    // It ensures the slider only starts once the user actually sees the page.
     afterNextRender(() => {
       this.startAutoSlide();
     });
   }
 
-  ngOnInit() {
-    // We removed startAutoSlide from here to prevent SSR timeouts.
-  }
+  ngOnInit() {}
 
   ngOnDestroy() {
     this.stopAutoSlide(); 
   }
 
   startAutoSlide() {
-    // Double check we are in the browser before setting an interval
     if (isPlatformBrowser(this.platformId)) {
-      this.stopAutoSlide(); // Clear any existing interval first
+      this.stopAutoSlide(); 
       this.intervalId = setInterval(() => {
         this.nextSlide();
       }, 4000);
@@ -71,7 +65,6 @@ export class Onboarding implements OnInit, OnDestroy {
 
   goToSlide(index: number) {
     this.currentIndex = index;
-    // Optional: Restart timer when user manually clicks a dot
     this.startAutoSlide();
   }
 
