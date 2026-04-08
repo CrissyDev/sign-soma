@@ -1,0 +1,47 @@
+<div class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <h1>Sign Soma</h1>
+        <p>Create your account to start communicating</p>
+      </div>
+  
+      <form (ngSubmit)="onSignup()" #signupForm="ngForm">
+        <div class="input-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" [(ngModel)]="signupData.name" placeholder="Enter your name" required>
+        </div>
+  
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" [(ngModel)]="signupData.email" placeholder="doctor@hospital.com" required>
+        </div>
+  
+        <div class="input-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" [(ngModel)]="signupData.password" placeholder="••••••••" required>
+        </div>
+  
+        <div class="role-container">
+          <p class="role-label">I am a:</p>
+          <div class="role-grid">
+            <div class="role-card" [class.selected]="signupData.role === 'patient'" (click)="signupData.role = 'patient'">
+              <span class="role-icon">👤</span>
+              <span class="role-text">Patient</span>
+            </div>
+            <div class="role-card" [class.selected]="signupData.role === 'doctor'" (click)="signupData.role = 'doctor'">
+              <span class="role-icon">🩺</span>
+              <span class="role-text">Doctor</span>
+            </div>
+          </div>
+        </div>
+  
+        <button type="submit" class="submit-btn" [disabled]="isLoading">
+          {{ isLoading ? 'Creating account...' : 'Sign Up' }}
+        </button>
+      </form>
+  
+      <div class="auth-footer">
+        <p>Already have an account? <a routerLink="/login">Log In</a></p>
+      </div>
+    </div>
+  </div>
