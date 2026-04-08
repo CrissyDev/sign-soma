@@ -11,8 +11,8 @@ import { Firestore, doc, setDoc } from '@angular/fire/firestore';
   selector: 'app-signup',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css']
+  templateUrl: './signup.html',
+  styleUrls: ['./signup.css']
 })
 export class SignupComponent {
   private auth = inject(Auth);

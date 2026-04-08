@@ -1,0 +1,33 @@
+<div class="auth-container">
+  <div class="card">
+
+    <img src="assets/WhatsApp Image 2026-03-19 at 11.36.42 AM.jpeg" 
+         class="logo" 
+         width="50" 
+         height="50" 
+         alt="SignSoma Logo">
+
+    <h2>SignSoma</h2>
+    <p class="subtitle">Sign Language Medical Assistant</p>
+
+    <p class="label">Sign Up As</p>
+
+    <div class="role-toggle">
+      <button type="button" [class.active]="role==='patient'" (click)="selectRole('patient')">Patient</button>
+      <button type="button" [class.active]="role==='doctor'" (click)="selectRole('doctor')">Doctor</button>
+    </div>
+
+    <input type="text" placeholder="Full Name" [(ngModel)]="name">
+    <input type="email" placeholder="Email" [(ngModel)]="email">
+    <input type="password" placeholder="Password" [(ngModel)]="password">
+
+    <button class="primary-btn" (click)="signUp()" [disabled]="isLoading">
+      {{ isLoading ? 'Creating Account...' : 'Sign Up' }}
+    </button>
+
+    <p class="login-link" routerLink="/login">
+      Already have an account? <strong>Login</strong>
+    </p>
+
+  </div>
+</div>
